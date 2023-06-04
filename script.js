@@ -1,6 +1,7 @@
 const itemForm = document.getElementById("item-form");
 const itemInput = document.getElementById("item-input");
 const itemList = document.getElementById("item-list");
+const clearBtn = document.getElementById("clear");
 
 function addItem(e) {
   e.preventDefault();
@@ -37,4 +38,26 @@ function createIcon(classes) {
   icon.className = classes;
   return icon;
 }
+
+function removeItem(e) {
+  if (e.target.id.contains("fa-solid")) {
+    // if (confirm("Are you sure?")) {
+    // gives a message = [Violation] 'click' handler took 1280ms
+    const Item = document.querySelector(".remove-item");
+    Item.parentElement.remove();
+    // }
+  }
+}
+
+function clearItem() {
+  //   if (e.target.classList.contains("btn-clear")) {
+  //     itemList.innerHTML = " ";
+  //   }
+  //   itemList.innerHTML = " ";
+  while (itemList.firstChild) {
+    itemList.removeChild(itemList.firstChild);
+  }
+}
 itemForm.addEventListener("submit", addItem);
+itemList.addEventListener("click", removeItem);
+clearBtn.addEventListener("click", clearItem);
