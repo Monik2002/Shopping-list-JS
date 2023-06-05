@@ -100,6 +100,15 @@ function clearItems() {
   // console.log(arr.splice(0, arr.length));
 }
 
+function onSearch() {
+  const text = itemFilter.value.toLowerCase();
+  const items = itemList.querySelectorAll("li");
+  items.forEach((item) => {
+    const itemName = item.firstChild.textContent.toLowerCase();
+    item.style.display = itemName.includes(text) ? "flex" : "none";
+  });
+}
+
 function checkUI() {
   if (itemList.children.length > 0) {
     clearBtn.style.display = "block";
@@ -113,5 +122,6 @@ function checkUI() {
 itemForm.addEventListener("submit", addItem);
 itemList.addEventListener("click", removeItem);
 clearBtn.addEventListener("click", clearItems);
+itemFilter.addEventListener("input", onSearch);
 
 checkUI();
