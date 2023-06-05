@@ -3,8 +3,6 @@ const itemInput = document.getElementById("item-input");
 const itemList = document.getElementById("item-list");
 const clearBtn = document.getElementById("clear");
 const itemFilter = document.getElementById("filter");
-// const liValue = document.getElementsByTagName("li");
-// const arr = [];
 
 function addItem(e) {
   e.preventDefault();
@@ -20,17 +18,6 @@ function addItem(e) {
   }
 
   const li = document.createElement("li");
-  // if (arr.includes(itemInput.value)) {
-  //   const div = document.createElement("div");
-  //   div.className = "ex-item";
-  //   const text = document.createTextNode(
-  //     "This item is already present in the list"
-  //   );
-  //   div.appendChild(text);
-  //   document.querySelector("form").appendChild(div);
-  //   setTimeout(() => document.querySelector(".ex-item").remove(), 2000);
-  // } else {
-  // arr.push(itemInput.value);
   li.appendChild(document.createTextNode(itemInput.value));
 
   const button = createButton("remove-item btn-link text-red");
@@ -38,7 +25,6 @@ function addItem(e) {
   itemList.appendChild(li);
   checkUI();
   itemInput.value = "";
-  // }
 }
 
 function createButton(classes) {
@@ -61,31 +47,9 @@ function removeItem(e) {
     // gives a message = [Violation] 'click' handler took 1280ms
     const Item = document.querySelector(".remove-item");
     Item.parentElement.remove();
+    // }
     checkUI();
-    // const arrLength = arr.length;
-    // for (let itr = 0; itr < arrLength; itr++) {
-    //   if (arr[itr] === itemInput.value) {
-    //     console.log(arr[itr]);
-    //     console.log(arr);
-    //   }
   }
-
-  // for (const itr = 0; itr < liValue.length; itr++) {
-  //   if (arr[itr] === itemInput.value) {
-  //     console.log(liValue.length);
-  //     console.log(arr[itr]);
-  //     delete arr[itr];
-  //   }
-  // }
-  // }
-  // const itr = 0;
-  // while (itr < arr.length) {
-  //   if (arr[itr] === itemInput.value) {
-  //     arr.splice(itr, 1);
-  //   }
-  //   itr++;
-  // }
-  // }
 }
 
 function clearItems() {
@@ -97,7 +61,6 @@ function clearItems() {
     itemList.removeChild(itemList.firstChild);
     checkUI();
   }
-  // console.log(arr.splice(0, arr.length));
 }
 
 function checkUI() {
