@@ -6,9 +6,14 @@ const itemFilter = document.getElementById("filter");
 // const liValue = document.getElementsByTagName("li");
 // const arr = [];
 
-function addItem(e) {
+function displayItems() {
+  const itemsInStorage = getItemsFromLS();
+  itemsInStorage.forEach((item) => addItemToDOM(item));
+  checkUI();
+}
+function onAddItemSubmit(e) {
   e.preventDefault();
-
+  const itemValue = itemInput.value;
   if (itemInput.value === "") {
     const div = document.createElement("div");
     div.className = "no-item";
@@ -19,7 +24,6 @@ function addItem(e) {
     return;
   }
 
-  const li = document.createElement("li");
   // if (arr.includes(itemInput.value)) {
   //   const div = document.createElement("div");
   //   div.className = "ex-item";
@@ -31,14 +35,31 @@ function addItem(e) {
   //   setTimeout(() => document.querySelector(".ex-item").remove(), 2000);
   // } else {
   // arr.push(itemInput.value);
-  li.appendChild(document.createTextNode(itemInput.value));
+  addItemToDOM(itemValue);
+  additemToLS(itemValue);
 
-  const button = createButton("remove-item btn-link text-red");
-  li.appendChild(button);
-  itemList.appendChild(li);
   checkUI();
   itemInput.value = "";
   // }
+}
+
+function addItemToDOM(item) {
+  // Create list item
+  const li = document.createElement("li");
+  li.appendChild(document.createTextNode(item));
+
+  const button = createButton("remove-item btn-link text-red");
+  li.appendChild(button);
+
+  // Add li to the DOM
+  itemList.appendChild(li);
+}
+
+function additemToLS(item) {
+  // add item to local storage
+  const itemsInStorage = getItemsFromLS();
+  itemsInStorage.push(item);
+  localStorage.setItem("items", JSON.stringify(itemsInStorage));
 }
 
 function createButton(classes) {
@@ -55,12 +76,24 @@ function createIcon(classes) {
   return icon;
 }
 
+function getItemsFromLS() {
+  let itemsInStorage;
+  if (localStorage.getItem("items") === null) {
+    itemsInStorage = [];
+  } else {
+    itemsInStorage = JSON.parse(localStorage.getItem("items"));
+  }
+  return itemsInStorage;
+}
 function removeItem(e) {
   if (e.target.classList.contains("fa-solid")) {
     // if (confirm("Are you sure?")) {
     // gives a message = [Violation] 'click' handler took 1280ms
     const Item = document.querySelector(".remove-item");
     Item.parentElement.remove();
+    // removeItemFromLC(Item.parentElement);
+    const textValue = Item.parentElement.textContent;
+    removeItemFromLS(textValue);
     checkUI();
     // const arrLength = arr.length;
     // for (let itr = 0; itr < arrLength; itr++) {
@@ -88,6 +121,17 @@ function removeItem(e) {
   // }
 }
 
+function removeItemFromLS(textValue) {
+  let itemsInStorage = getItemsFromLS();
+  itemsInStorage = itemsInStorage.filter((i) => i !== textValue);
+  localStorage.setItem("items", JSON.stringify(itemsInStorage));
+}
+
+// function removeItemFromLC(item) {
+//   let itemsInStorage = getItemsFromLS();
+//   itemsInStorage = console.log(itemsInStorage.filter((i) => i !== item));
+//   localStorage.setItem("items", JSON.stringify(itemsInStorage));
+// }
 function clearItems() {
   //   if (e.target.classList.contains("btn-clear")) {
   //     itemList.innerHTML = " ";
@@ -97,7 +141,7 @@ function clearItems() {
     itemList.removeChild(itemList.firstChild);
     checkUI();
   }
-  // console.log(arr.splice(0, arr.length));
+  localStorage.removeItem("items");
 }
 
 function onSearch() {
@@ -119,9 +163,13 @@ function checkUI() {
   }
 }
 
-itemForm.addEventListener("submit", addItem);
+// function Init() {
+itemForm.addEventListener("submit", onAddItemSubmit);
 itemList.addEventListener("click", removeItem);
 clearBtn.addEventListener("click", clearItems);
 itemFilter.addEventListener("input", onSearch);
+document.addEventListener("DOMContentLoaded", displayItems);
+// }
 
 checkUI();
+// Init();
