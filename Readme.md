@@ -47,4 +47,4 @@ If you want to run the Shopping List App locally or contribute to its developmen
    git clone https://github.com/Monik2002/Shopping-list-JS.git
    ```
 
-   ##Thank you!
+##Thank you!
